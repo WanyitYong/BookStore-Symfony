@@ -1,0 +1,11 @@
+/*css for whole paragraph*/
+body {
+    background-color: lightgrey;
+    color: blue;
+}
+
+/*css for link*/
+a {
+    color: black;
+}
+
