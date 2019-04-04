@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error{% endblock %}
+
+{% block body %}
+    <h1>Access Denied</h1>
+
+    Sorry, Access is denied for your Request
+    <p>
+        Here the link back to <a href = "{{ url('public_home') }}">Homepage</a>
+    </p>
+{% endblock %}
