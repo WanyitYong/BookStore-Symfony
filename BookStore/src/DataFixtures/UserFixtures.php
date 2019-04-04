@@ -14,9 +14,11 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $User = $this->createUser('user', 'user');
+        $User2 = $this->createUser('qw', 'qw');
         $Admin = $this->createUser('admin', 'admin', ['ROLE_ADMIN']);
 
         $manager->persist($User);
+        $manager->persist($User2);
         $manager->persist($Admin);
 
         $manager->flush();

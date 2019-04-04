@@ -14,6 +14,8 @@
 <section class = "section">
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <p class = "section">You are logged in as: <strong>{{ app.user.username }}</strong></p>
+    {% else %}
+        <p class = "section">Sorry, you still haven't log in</p>
     {% endif %}
 </section>
 <nav class="navbar navbar-expand-lg navbar-dark navbar-bg mb-5">
@@ -27,7 +29,7 @@
         </li>
         <li>
             {% if is_granted('ROLE_USER') %}
-                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_about') }}">Buy</a>
+                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_buy') }}">Buy</a>
             {% endif %}
         </li>
         <li>

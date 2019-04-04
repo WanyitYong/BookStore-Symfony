@@ -32,6 +32,10 @@ security:
                 path: app_logout
                 invalidate_session: true
 
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800
+
             access_denied_handler: App\Security\AccessDeniedHandler
 
             guard:
