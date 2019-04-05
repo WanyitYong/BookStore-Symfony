@@ -28,18 +28,18 @@
             <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_about') }}">About</a>
         </li>
         <li>
-            {% if is_granted('ROLE_USER') %}
-                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_buy') }}">Buy</a>
+            {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
+                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('book_index') }}">Buy</a>
             {% endif %}
         </li>
         <li>
-            {% if is_granted('ROLE_USER') %}
+            {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
                 <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_about') }}">Sell</a>
             {% endif %}
         </li>
         <li>
             {% if is_granted('ROLE_ADMIN') %}
-                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_about') }}">User Account</a>
+                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('user_index') }}">User Account</a>
             {% endif %}
         </li>
         <li>
@@ -72,12 +72,12 @@
         <div class="row">
             <div class="col-md-3 mb-1">
                 <form class="form-inline">
-                    <h5 class="mb-1"><a href="https://github.com/WanyitYong/bookStore-with-symfony" style="color: black">HOME</a></h5>
+                    <h5 class="mb-1"><a href="{{ url('public_home') }}" style="color: black">HOME</a></h5>
                 </form>
             </div>
             <div class="col-md-3 mb-1">
                 <form class="form-inline">
-                    <h5 class="mb-1"><a href="https://github.com/WanyitYong/bookStore-with-symfony" style="color: black">ABOUT</a></h5>
+                    <h5 class="mb-1"><a href= "{{ url('public_about') }}" style="color: black">ABOUT</a></h5>
                 </form>
             </div>
             <div class="col-md-3 mb-1">

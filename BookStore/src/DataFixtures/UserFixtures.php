@@ -6,6 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\User;
+use App\Entity\Book;
 
 class UserFixtures extends Fixture
 {
@@ -21,6 +22,12 @@ class UserFixtures extends Fixture
         $manager->persist($User2);
         $manager->persist($Admin);
 
+        $book1 = $this->createBook("T1", "A1", $User, 2.55, "description", "/images/bookCover01.png");
+        $book2 = $this->createBook("T2", "A2", $User, 1.99, "description", "/images/bookCover01.png");
+
+        $manager->persist($book1);
+        $manager->persist($book2);
+
         $manager->flush();
     }
 
@@ -35,5 +42,18 @@ class UserFixtures extends Fixture
 
         $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword); $user->setPassword($encodedPassword);
         return $user;
+    }
+
+    private function createBook($title, $author,User $seller, $price, $description, $image):Book
+    {
+        $book = new Book();
+        $book->setTitle($title);
+        $book->setAuthor($author);
+        $book->setSeller($seller);
+        $book->setPrice($price);
+        $book->setDescription($description);
+        $book->setImage($image);
+
+        return $book;
     }
 }
