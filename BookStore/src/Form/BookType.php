@@ -16,10 +16,10 @@ class BookType extends AbstractType
         $builder
             ->add('title')
             ->add('author')
-            ->add('price',MoneyType::class)
+            ->add('price')
             ->add('description', TextareaType::class)
             ->add('buyer')
-            ->add('buyerPrice',MoneyType::class)
+            ->add('buyerPrice')
             ->add('image')
             ->add('seller')
         ;
