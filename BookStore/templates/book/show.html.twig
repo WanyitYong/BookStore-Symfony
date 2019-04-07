@@ -3,10 +3,16 @@
 {% block title %}Book{% endblock %}
 
 {% block body %}
-    <h1>Book</h1>
+    <h1>
+        Book Details
+        <button class="btn" style ="float:right; color: black;"><a href="{{ path('book_buy') }}" style ="color: black; font-size: 20px;">back to list</a></button>
+    </h1>
 
     <table class="table">
         <tbody>
+            <tr>
+                <td><img src = "{{ book.image }}"></td>
+            </tr>
             <tr>
                 <th>Id</th>
                 <td>{{ book.id }}</td>
@@ -21,30 +27,25 @@
             </tr>
             <tr>
                 <th>Price</th>
-                <td>{{ book.price }}</td>
+                <td>&euro; {{ book.price }}</td>
             </tr>
             <tr>
                 <th>Description</th>
                 <td>{{ book.description }}</td>
             </tr>
-            <tr>
+
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
+        <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('book_bid', {'id': book.id}) }}" style ="color: black; font-size: 20px;">BID</a></button>
+    {% endif %}
+    <!--<tr>
                 <th>Buyer</th>
                 <td>{{ book.buyer }}</td>
             </tr>
             <tr>
                 <th>BuyerPrice</th>
                 <td>{{ book.buyerPrice }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td><img src = "{{ book.image }}"></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('book_index') }}">back to list</a>
-
-    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
-
-    {{ include('book/_delete_form.html.twig') }}
+            </tr>-->
+    <!--{{ include('book/_delete_form.html.twig') }}-->
 {% endblock %}

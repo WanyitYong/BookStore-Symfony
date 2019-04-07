@@ -18,11 +18,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class BookController extends AbstractController
 {
     /**
-     * @Route("/", name="book_index", methods={"GET"})
+     * @Route("/buy", name="book_buy", methods={"GET"})
      */
     public function index(BookRepository $bookRepository): Response
     {
         return $this->render('book/index.html.twig', [
+            'books' => $bookRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/sell", name="book_sell", methods={"GET"})
+     */
+    public function sell(BookRepository $bookRepository): Response
+    {
+        return $this->render('book/sell.html.twig', [
             'books' => $bookRepository->findAll(),
         ]);
     }
@@ -71,7 +81,7 @@ class BookController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('book_index', [
+            return $this->redirectToRoute('book_sell', [
                 'id' => $book->getId(),
             ]);
         }
@@ -93,6 +103,6 @@ class BookController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('book_index');
+        return $this->redirectToRoute('book_sell');
     }
 }

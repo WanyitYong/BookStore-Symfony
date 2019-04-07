@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,10 +16,10 @@ class BookType extends AbstractType
         $builder
             ->add('title')
             ->add('author')
-            ->add('price')
-            ->add('description')
+            ->add('price',MoneyType::class)
+            ->add('description', TextareaType::class)
             ->add('buyer')
-            ->add('buyerPrice')
+            ->add('buyerPrice',MoneyType::class)
             ->add('image')
             ->add('seller')
         ;

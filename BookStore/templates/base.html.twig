@@ -29,12 +29,12 @@
         </li>
         <li>
             {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
-                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('book_index') }}">Buy</a>
+                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('book_buy') }}">Buy</a>
             {% endif %}
         </li>
         <li>
             {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
-                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('public_about') }}">Sell</a>
+                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('book_sell') }}" id = "sellPage">Sell</a>
             {% endif %}
         </li>
         <li>

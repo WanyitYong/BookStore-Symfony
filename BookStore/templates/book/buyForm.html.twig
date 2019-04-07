@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bid the Book{% endblock %}
+{% block body %}
+    <h1>
+        Bid Book
+        <button class="btn" style ="float:right; color: black;"><a href="{{ path('book_buy') }}" style ="color: black; font-size: 20px;">back to list</a></button>
+    </h1>
+    <hr>
+
+    <img src = "{{ book.image }}">
+    <div style="font-size: 20px; color: black; font-family:Elephant; float:right; margin-top:75px; margin-right: 500px;">
+        Id: {{ book.id }}<br>
+        Title: {{ book.title }}<br>
+        Author: {{ book.author }}<br>
+        Price: &euro; {{ book.price }}
+    </div>
+    <br><br>
+    {{ form_start(form) }}
+        <p style="font-size: 20px; color: black; font-family:Elephant;">Put the price:</p>
+        {{ form_widget(form.buyerPrice) }}
+
+        <div style="display:none">
+            {{ form_widget(form.seller) }}
+            {{ form_widget(form.title) }}
+            {{ form_widget(form.author) }}
+            {{ form_widget(form.price) }}
+            {{ form_widget(form.description) }}
+            {{ form_widget(form.image) }}
+            {{ form_widget(form.buyer) }}
+        </div>
+
+        <br>
+
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+{% endblock %}
