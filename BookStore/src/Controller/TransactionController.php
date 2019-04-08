@@ -28,15 +28,23 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="transaction_new", methods={"GET","POST"})
+     * @Route("/{book}/new", name="transaction_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Book $book): Response
+    public function new(Request $request): Response
     {
+        $bookId = $request->attributes->get('book');
+        $book = $this->getDoctrine()
+            ->getRepository(Book::class)
+            ->find($bookId);
+
+        //$user = $this->getUser()->getUsername();
+        //$user = $request->getUserInfo();
         $transaction = new Transaction();
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transaction->setBook($book);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transaction);
             $entityManager->flush();

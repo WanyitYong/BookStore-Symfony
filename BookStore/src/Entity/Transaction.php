@@ -18,18 +18,19 @@ class Transaction
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book", inversedBy="transactions")
+     * * @ORM\JoinColumn(nullable=false)
      */
     private $Book;
 
     /**
      * @ORM\Column(type="float", length=255)
      */
-    private $buyer;
+    private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $price;
+    private $buyer;
 
     public function getId(): ?int
     {
@@ -58,12 +59,12 @@ class Transaction
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
         return $this;

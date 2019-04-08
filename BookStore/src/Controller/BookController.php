@@ -45,10 +45,10 @@ class BookController extends AbstractController
     public function new(Request $request): Response
     {
         $user = $request->attributes->get('user');
-
         $seller = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($user);
+
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);

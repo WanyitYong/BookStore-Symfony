@@ -18,7 +18,5 @@
         </div>
     </div>
     <br><br>
-    {{ include('transaction/_form.html.twig') }}
-
-    <a href="{{ path('transaction_index') }}">back to list</a>
+    {{ include('transaction/_form.html.twig', {'button_label': 'Confirm'}) }}
 {% endblock %}
