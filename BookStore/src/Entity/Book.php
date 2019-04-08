@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,19 +45,19 @@ class Book
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $buyer;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $buyerPrice;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="Book")
+     */
+    private $transactions;
+
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,7 +72,6 @@ class Book
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -82,7 +83,6 @@ class Book
     public function setAuthor(string $author): self
     {
         $this->author = $author;
-
         return $this;
     }
 
@@ -94,7 +94,6 @@ class Book
     public function setSeller(?User $seller): self
     {
         $this->seller = $seller;
-
         return $this;
     }
 
@@ -106,7 +105,6 @@ class Book
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -118,31 +116,6 @@ class Book
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getBuyer(): ?string
-    {
-        return $this->buyer;
-    }
-
-    public function setBuyer(?string $buyer): self
-    {
-        $this->buyer = $buyer;
-
-        return $this;
-    }
-
-    public function getBuyerPrice(): ?string
-    {
-        return $this->buyerPrice;
-    }
-
-    public function setBuyerPrice(?string $buyerPrice): self
-    {
-        $this->buyerPrice = $buyerPrice;
-
         return $this;
     }
 
@@ -154,7 +127,38 @@ class Book
     public function setImage(string $image): self
     {
         $this->image = $image;
+        return $this;
+    }
 
+    public function __toString()
+    { return (string)$this->title; }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setBook($this);
+        }
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): self
+    {
+        if ($this->transactions->contains($transaction)) {
+            $this->transactions->removeElement($transaction);
+            // set the owning side to null (unless already changed)
+            if ($transaction->getBook() === $this) {
+                $transaction->setBook(null);
+            }
+        }
         return $this;
     }
 }

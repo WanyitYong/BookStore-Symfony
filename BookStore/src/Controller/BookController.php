@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\User;
+use App\Entity\Transaction;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,24 +40,31 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="book_new", methods={"GET","POST"})
+     * @Route("/{user}/new", name="book_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
+        $user = $request->attributes->get('user');
+
+        $seller = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($user);
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $book->setSeller($seller);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
 
-            return $this->redirectToRoute('book_index');
+            return $this->redirectToRoute('book_sell');
         }
 
         return $this->render('book/new.html.twig', [
             'book' => $book,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }

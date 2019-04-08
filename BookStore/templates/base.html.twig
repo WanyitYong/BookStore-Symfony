@@ -34,7 +34,7 @@
         </li>
         <li>
             {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
-                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('book_sell') }}" id = "sellPage">Sell</a>
+                <a style="color: #000000; margin-right: 20px;" class="nav-link" href="{{ url('book_sell', {'user': app.user.id}) }}" id = "sellPage">Sell</a>
             {% endif %}
         </li>
         <li>

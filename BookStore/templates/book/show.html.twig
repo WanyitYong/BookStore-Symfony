@@ -37,15 +37,10 @@
         </tbody>
     </table>
     {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
-        <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('book_bid', {'id': book.id}) }}" style ="color: black; font-size: 20px;">BID</a></button>
+        {% if book.seller != app.user.username %}
+            <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new') }}" style ="color: black; font-size: 20px;">BID</a></button>
+        {% else %}
+            <p style ="font-size: 20px; ">Not Allowed to bid the book.</p>
+        {% endif %}
     {% endif %}
-    <!--<tr>
-                <th>Buyer</th>
-                <td>{{ book.buyer }}</td>
-            </tr>
-            <tr>
-                <th>BuyerPrice</th>
-                <td>{{ book.buyerPrice }}</td>
-            </tr>-->
-    <!--{{ include('book/_delete_form.html.twig') }}-->
 {% endblock %}

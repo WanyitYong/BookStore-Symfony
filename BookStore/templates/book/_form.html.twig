@@ -17,9 +17,7 @@
 
 <div style="display:none">
     {{ form_widget(form.seller) }}
-    {{ form_widget(form.buyer) }}
-    {{ form_widget(form.buyerPrice) }}
 </div>
 <br>
-<button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn">{{ button_label|default('Save', {'user': app.user.id}) }}</button>
 {{ form_end(form) }}

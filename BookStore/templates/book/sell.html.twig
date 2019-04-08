@@ -6,30 +6,34 @@
     <h1>
         Book Sell
         <button class = "btn" style = "float:right; background-color: lightskyblue;">
-            <a style="font-size: 25px; color: black;" href="{{ path('book_new') }}">
+            <a style="font-size: 25px; color: black;" href="{{ path('book_new', {'user': app.user.id}) }}">
                 Create New
             </a>
         </button>
     </h1>
     <table class="table">
         <tbody>
-        {% for book in books %}
-            <tr>
-                <td><img src = "{{ book.image }}"></td>
-                <td style="font-size: 20px; color: black; font-family:Elephant; ">Id: {{ book.id }} <br>
-                Title: {{ book.title }} <br>
-                Author: {{ book.author }} <br>
-                Price: &euro; {{ book.price }} <br>
-                Description: {{ book.description }}
-                </td>
-                <td><button class = "btn"><a style="font-size: 20px; color: black;" href="{{ path('book_edit', {'id': book.id}) }}">Edit</a></button>
-                </td>
-            </tr>
+        {% if books != null %}
+            {% for book in books %}
+                {% if book.seller == app.user.username  %}
+                    <tr id = "sellBook">
+                        <td><img src = "{{ book.image }}"></td>
+                        <td style="font-size: 20px; color: black; font-family:Elephant; ">Id: {{ book.id }} <br>
+                            Title: {{ book.title }} <br>
+                            Author: {{ book.author }} <br>
+                            Price: &euro; {{ book.price }} <br>
+                            Description: {{ book.description }}
+                        </td>
+                        <td><button class = "btn"><a style="font-size: 20px; color: black;" href="{{ path('book_edit', {'id': book.id}) }}">Edit</a></button>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
         {% else %}
             <tr>
                 <td colspan="9">no records found</td>
             </tr>
-        {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 {% endblock %}
