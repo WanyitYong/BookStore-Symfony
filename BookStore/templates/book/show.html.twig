@@ -36,11 +36,20 @@
 
         </tbody>
     </table>
+
     {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
         {% if book.seller != app.user.username %}
-            <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
+            {% if transactions != null %}
+                {% if transactions.buyer != app.user.username %}
+                    <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
+                {% else %}
+                    <p style ="font-size: 20px; font-family: Segoe Script; ">***You have already bid the book.***</p>
+                {% endif %}
+            {% else %}
+                <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
+            {% endif %}
         {% else %}
-            <p style ="font-size: 20px; ">Not Allowed to bid the book.</p>
+            <p style ="font-size: 20px; font-family: Segoe Script;">***Not Allowed to bid the book.***</p>
         {% endif %}
     {% endif %}
 {% endblock %}

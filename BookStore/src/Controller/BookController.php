@@ -74,8 +74,17 @@ class BookController extends AbstractController
      */
     public function show(Book $book): Response
     {
+        $transaction = $this->getDoctrine()->getRepository(Transaction::class)->find($book);
+        if(!$transaction)
+        {
+            return $this->render('book/show.html.twig', [
+                'book' => $book,
+                'transactions' => $transaction,
+            ]);
+        }
         return $this->render('book/show.html.twig', [
             'book' => $book,
+            'transactions' => $transaction,
         ]);
     }
 
