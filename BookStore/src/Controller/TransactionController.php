@@ -37,7 +37,7 @@ class TransactionController extends AbstractController
             ->getRepository(Book::class)
             ->find($bookId);
 
-        //$user = $this->getUser()->getUsername();
+        $user = $this->getUser()->getUsername();
         //$user = $request->getUserInfo();
         $transaction = new Transaction();
         $form = $this->createForm(TransactionType::class, $transaction);
@@ -45,6 +45,7 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $transaction->setBook($book);
+            $transaction->setBuyer($user);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transaction);
             $entityManager->flush();

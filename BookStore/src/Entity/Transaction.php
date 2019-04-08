@@ -23,12 +23,12 @@ class Transaction
     private $Book;
 
     /**
-     * @ORM\Column(type="float", length=255)
+     * @ORM\Column(type="float")
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $buyer;
 
@@ -48,17 +48,6 @@ class Transaction
         return $this;
     }
 
-    public function getBuyer(): ?string
-    {
-        return $this->buyer;
-    }
-
-    public function setBuyer(string $buyer): self
-    {
-        $this->buyer = $buyer;
-        return $this;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;
@@ -72,4 +61,16 @@ class Transaction
 
     public function __toString()
     { return (string)$this->buyer; }
+
+    public function getBuyer(): ?string
+    {
+        return $this->buyer;
+    }
+
+    public function setBuyer(?string $buyer): self
+    {
+        $this->buyer = $buyer;
+
+        return $this;
+    }
 }

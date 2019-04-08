@@ -22,7 +22,7 @@
                 <td>{{ book.id }}</td>
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
-                <td>{{ book.price }}</td>
+                <td>&euro;{{ book.price }}</td>
                 <td>{{ book.seller.username }}</td>
                 <td>
                     <a href="{{ path('book_show', {'id': book.id}) }}">show</a>

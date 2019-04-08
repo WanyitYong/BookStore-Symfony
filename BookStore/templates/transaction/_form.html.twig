@@ -1,13 +1,12 @@
 {{ form_start(form) }}
     {{ form_label(form.price) }}
     {{ form_widget(form.price) }}
-    {{ form_label(form.buyer) }}
-    {{ form_widget(form.buyer) }}
+
     <br>
     <button class="btn">{{ button_label|default('Save') }}</button>
 
     <div style="display: none;">
-
+        {{ form_widget(form.buyer) }}
         {{ form_widget(form.Book) }}
     </div>
 {{ form_end(form) }}
