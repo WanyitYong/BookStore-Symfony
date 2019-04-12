@@ -16,10 +16,12 @@ class UserFixtures extends Fixture
     {
         $User = $this->createUser('user', 'user');
         $User2 = $this->createUser('qw', 'qw');
+        $User3 = $this->createUser('as', 'as');
         $Admin = $this->createUser('admin', 'admin', ['ROLE_ADMIN']);
 
         $manager->persist($User);
         $manager->persist($User2);
+        $manager->persist($User3);
         $manager->persist($Admin);
 
         $book1 = $this->createBook("T1", "A1", $User, 2.55, "description", "/images/bookCover01.png");

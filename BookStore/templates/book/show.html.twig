@@ -37,10 +37,18 @@
         </tbody>
     </table>
 
+    {% set break = true %}
     {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
         {% if book.seller != app.user.username %}
             {% if transactions != null %}
-                {% if transactions.buyer != app.user.username %}
+                {% for transaction in transactions if break %}
+                    {% if transaction.buyer == app.user.username %}
+                        {% set break = false %}
+                    {% else %}
+                        {% set break = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if break %}
                     <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
                 {% else %}
                     <p style ="font-size: 20px; font-family: Segoe Script; ">***You have already bid the book.***</p>

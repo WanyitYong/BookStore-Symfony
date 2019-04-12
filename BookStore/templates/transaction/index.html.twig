@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Buyer</th>
                 <th>Price</th>
+                <th>book</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ transaction.id }}</td>
                 <td>{{ transaction.buyer }}</td>
                 <td>{{ transaction.price }}</td>
+                <td>{{ transaction.book }}</td>
                 <td>
                     <a href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
                     <a href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>

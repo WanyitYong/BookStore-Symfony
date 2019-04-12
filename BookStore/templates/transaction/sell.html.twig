@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bid list{% endblock %}
+
+{% block body %}
+    <h1>
+        Select the Buyer for book: {{ book.title }}
+        <button class="btn" style ="float:right; color: black;"><a href="{{ path('book_sell') }}" style ="color: black; font-size: 20px;">back to list</a></button>
+    </h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Buyer</th>
+            <th>Price</th>
+            <th>Select</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.buyer }}</td>
+                <td>{{ transaction.price }}</td>
+                <td><button class="btn" style ="float:right; "><a href="{{ path('book_sell', {'id': transaction.id}) }}" style ="color: black; font-size: 20px;">Select</a></button></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br><br>
+{% endblock %}

@@ -2,31 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Book;
+use App\Entity\Choice;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BookType extends AbstractType
+class ChoiceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('author')
-            ->add('price')
-            ->add('description', TextareaType::class)
-            ->add('image')
-            ->add('seller')
+            ->add('book')
+            ->add('transaction')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Book::class,
+            'data_class' => Choice::class,
         ]);
     }
 }

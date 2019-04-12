@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Transaction;
 use App\Entity\Book;
-use App\Entity\User;
+use App\Entity\Choice;
+use App\Form\ChoiceType;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +23,32 @@ class TransactionController extends AbstractController
      * @Route("/", name="transaction_index", methods={"GET"})
      */
     public function index(TransactionRepository $transactionRepository): Response
+    {
+        return $this->render('transaction/index.html.twig', [
+            'transactions' => $transactionRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/select", name="transaction_sell", methods={"GET"})
+     */
+    public function sell(TransactionRepository $transactionRepository, Request $request): Response
+    {
+        $bookId = $request->attributes->get('book');
+        $book = $this->getDoctrine()
+            ->getRepository(Book::class)
+            ->find($bookId);
+        //$choice = new Choice();
+        return $this->render('transaction/sell.html.twig', [
+            'transactions' => $transactionRepository->findBy(array('Book' => $bookId )),
+            'book' => $book,
+        ]);
+    }
+
+    /**
+     * @Route("/", name="transaction_history", methods={"GET"})
+     */
+    public function history(TransactionRepository $transactionRepository): Response
     {
         return $this->render('transaction/index.html.twig', [
             'transactions' => $transactionRepository->findAll(),

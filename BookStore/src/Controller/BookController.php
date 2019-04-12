@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Book;
-use App\Entity\User;
 use App\Entity\Transaction;
 use App\Form\BookType;
 use App\Repository\BookRepository;
@@ -44,10 +43,7 @@ class BookController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $user = $request->attributes->get('user');
-        $seller = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($user);
+        $seller = $this->getUser()->getUsername();
 
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
@@ -64,7 +60,7 @@ class BookController extends AbstractController
 
         return $this->render('book/new.html.twig', [
             'book' => $book,
-            'user' => $user,
+            'user' => $seller,
             'form' => $form->createView(),
         ]);
     }
@@ -74,14 +70,8 @@ class BookController extends AbstractController
      */
     public function show(Book $book): Response
     {
-        $transaction = $this->getDoctrine()->getRepository(Transaction::class)->find($book);
-        if(!$transaction)
-        {
-            return $this->render('book/show.html.twig', [
-                'book' => $book,
-                'transactions' => $transaction,
-            ]);
-        }
+        $transaction = $this->getDoctrine()->getRepository(Transaction::class)->findBy(array('Book'=>$book));
+
         return $this->render('book/show.html.twig', [
             'book' => $book,
             'transactions' => $transaction,
