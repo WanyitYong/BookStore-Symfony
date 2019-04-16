@@ -1,4 +1,9 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_widget(form.userInput) }}
+    <br>
+    <button class="btn" style=" float: right;">{{ button_label|default('Comment') }}</button>
+
+    <div style="display:none">
+        {{ form_widget(form.buyer) }}
+    </div>
 {{ form_end(form) }}

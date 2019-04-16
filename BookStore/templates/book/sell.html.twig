@@ -24,7 +24,12 @@
                             Price: &euro; {{ book.price }} <br>
                             Description: {{ book.description }}
                         </td>
-                        <td><button class = "btn"><a style="font-size: 20px; color: black;" href="{{ path('transaction_sell', {'book': book.id}) }}">Sell</a></button>
+                        <td>
+                            {% if book.status == null %}
+                                <button class = "btn" style="text-align: center;"><a style="font-size: 20px; color: black;" href="{{ path('transaction_sell', {'book': book.id}) }}">Sell</a></button>
+                            {% else %}
+                                <p style ="font-size: 20px; font-family: Segoe Script; ">Sold</p>
+                            {% endif %}
                         </td>
                         <td><button class = "btn"><a style="font-size: 20px; color: black;" href="{{ path('book_edit', {'id': book.id}) }}">Edit</a></button>
                         </td>

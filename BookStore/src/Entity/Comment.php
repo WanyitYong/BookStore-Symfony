@@ -26,6 +26,11 @@ class Comment
      */
     private $buyer;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Book")
+     */
+    private $book;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class Comment
     public function setBuyer(?string $buyer): self
     {
         $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
 
         return $this;
     }

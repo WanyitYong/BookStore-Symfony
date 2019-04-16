@@ -54,6 +54,16 @@ class Book
      */
     private $transactions;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Transaction", cascade={"persist", "remove"})
+     */
+    private $transaction;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -159,6 +169,30 @@ class Book
                 $transaction->setBook(null);
             }
         }
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTransaction(): ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    public function setTransaction(?Transaction $transaction): self
+    {
+        $this->transaction = $transaction;
+
         return $this;
     }
 }

@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\Transaction;
+use App\Entity\Comment;
 use App\Form\BookType;
+use App\Form\CommentType;
 use App\Repository\BookRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +41,24 @@ class BookController extends AbstractController
     }
 
     /**
+     * @Route("/confirm/{id}", name="book_confirm", methods={"GET","POST"})
+     */
+    public function confirm(BookRepository $bookRepository, Request $request): Response
+    {
+        $transactionId = $request->attributes->get('id');
+        $transaction = $this->getDoctrine()->getRepository(Transaction::class)->find($transactionId);
+        $bookId = $transaction->getBook();
+        $book = $this->getDoctrine()->getRepository(Book::class)->find($bookId);
+        $book->setStatus(true);
+        $book->setTransaction($transaction);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->render('book/sell.html.twig', [
+            'books' => $bookRepository->findAll(),
+            'id'=>$transactionId,
+        ]);
+    }
+
+    /**
      * @Route("/{user}/new", name="book_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -66,15 +86,40 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="book_show", methods={"GET"})
+     * @Route("/{id}", name="book_show", methods={"GET","POST"})
      */
-    public function show(Book $book): Response
+    public function show(Book $book, Request $request): Response
     {
+        $user = $this->getUser()->getUsername();
         $transaction = $this->getDoctrine()->getRepository(Transaction::class)->findBy(array('Book'=>$book));
+        $commentPrev = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('book'=>$book));
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setBuyer($user);
+            $comment->setBook($book);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->render('book/show.html.twig', [
+                'book' => $book,
+                'transactions' => $transaction,
+                'comments' => $commentPrev,
+                'comment' => $comment,
+                'form' => $form->createView(),
+            ]);
+        }
 
         return $this->render('book/show.html.twig', [
             'book' => $book,
             'transactions' => $transaction,
+            'comment' => $comment,
+            'comments' => $commentPrev,
+            'form' => $form->createView(),
         ]);
     }
 

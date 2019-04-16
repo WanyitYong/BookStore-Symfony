@@ -40,24 +40,45 @@
     {% set break = true %}
     {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
         {% if book.seller != app.user.username %}
-            {% if transactions != null %}
-                {% for transaction in transactions if break %}
-                    {% if transaction.buyer == app.user.username %}
-                        {% set break = false %}
+            {% if book.status == null %}
+                {% if transactions != null %}
+                    {% for transaction in transactions if break %}
+                        {% if transaction.buyer == app.user.username %}
+                            {% set break = false %}
+                        {% else %}
+                            {% set break = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if break %}
+                        <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
                     {% else %}
-                        {% set break = true %}
+                        <p style ="font-size: 20px; font-family: Segoe Script; text-align: center;">*** You have already bid the book. ***</p>
                     {% endif %}
-                {% endfor %}
-                {% if break %}
-                    <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
                 {% else %}
-                    <p style ="font-size: 20px; font-family: Segoe Script; ">***You have already bid the book.***</p>
+                    <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
                 {% endif %}
             {% else %}
-                <button class="btn" id = "buy" style ="font-size: 20px; "><a href="{{ path('transaction_new', { 'book': book.id }) }}" style ="color: black; font-size: 20px;">BID</a></button>
+                {% if book.transaction.buyer == app.user.username%}
+                    <p style ="font-size: 20px; font-family: Segoe Script; text-align: center;">*** Congratulations, you have got the book ***</p>
+                {% else %}
+                    <p style ="font-size: 20px; font-family: Segoe Script; text-align: center;">*** Sorry, the book has sold ***</p>
+                {% endif %}
             {% endif %}
         {% else %}
-            <p style ="font-size: 20px; font-family: Segoe Script;">***Not Allowed to bid the book.***</p>
+            <p style ="font-size: 20px; font-family: Segoe Script; text-align: center;">*** Not Allowed to bid the book. ***</p>
         {% endif %}
     {% endif %}
+
+    <div class = "comment" style=" border: 2px; border-color: #5eb5e0; border-style: dotted; margin: 20px; padding: 20px;">
+        <p style ="font-size: 20px; font-family: Segoe Script; text-align: center;">*** Comment ***</p>
+        {% set break2 = true %}
+        {% for comment in comments if comment.book == book%}
+                <p style ="font-size: 15px; font-family: Segoe Script;">Comment by {{ comment.buyer }}:<br>&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.userInput }}</p>
+        {% else %}
+            <p style ="font-size: 15px; font-family: Segoe Script; text-align: center;">*** No comment records yet ***</p>
+        {% endfor %}
+        <hr>
+
+        {{ include('comment/_form.html.twig') }}
+    </div>
 {% endblock %}
