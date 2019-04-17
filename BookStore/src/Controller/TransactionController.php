@@ -34,16 +34,10 @@ class TransactionController extends AbstractController
     /**
      * @Route("/select", name="transaction_sell", methods={"GET"})
      */
-    public function sell(TransactionRepository $transactionRepository, Request $request): Response
+    public function sell(TransactionRepository $transactionRepository): Response
     {
-        $bookId = $request->attributes->get('book');
-        $book = $this->getDoctrine()
-            ->getRepository(Book::class)
-            ->find($bookId);
-        //$choice = new Choice();
         return $this->render('transaction/sell.html.twig', [
-            'transactions' => $transactionRepository->findBy(array('Book' => $bookId )),
-            'book' => $book,
+            'transactions' => $transactionRepository->findAll(),
         ]);
     }
 
