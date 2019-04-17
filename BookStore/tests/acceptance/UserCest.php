@@ -5,14 +5,14 @@ class UserCest
 {
     public function testUserInDb(AcceptanceTester $i)
     {
-        $i->haveInRepository('App\Entity\User',['username'=>'user']);
+        $i->seeInRepository('App\Entity\User',['username'=>'user']);
         $i->seeInRepository('App\Entity\User',['username'=>'admin']);
         $i->seeInRepository('App\Entity\User',['username'=>'Matt']);
     }
 
     public function testAddToDatabase(AcceptanceTester $I)
     {
-        $I->haveInRepository('App\Entity\User', [ 'username' => 'userTEMP', 'password' => 'sdf', 'roles' => ['ROLE_USER'] ]);
+        $I->haveInRepository('App\Entity\User', [ 'username' => 'userTEMP', 'roles' => ["ROLE_USER"], 'password' => 'sdf' ]);
         $I->seeInRepository('App\Entity\User', [ 'username' => 'userTEMP' ]);
     }
 
