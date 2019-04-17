@@ -16,7 +16,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/book")
- * @IsGranted("ROLE_USER")
  */
 class BookController extends AbstractController
 {
@@ -32,6 +31,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/sell", name="book_sell", methods={"GET"})
+     * * @IsGranted("ROLE_USER")
      */
     public function sell(BookRepository $bookRepository): Response
     {
@@ -42,6 +42,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/confirm/{id}", name="book_confirm", methods={"GET","POST"})
+     * * @IsGranted("ROLE_USER")
      */
     public function confirm(BookRepository $bookRepository, Request $request): Response
     {
@@ -60,6 +61,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/{user}/new", name="book_new", methods={"GET","POST"})
+     * * @IsGranted("ROLE_USER")
      */
     public function new(Request $request): Response
     {
@@ -82,6 +84,18 @@ class BookController extends AbstractController
             'book' => $book,
             'user' => $seller,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="book_show2", methods={"GET"})
+     */
+    public function show2(Book $book): Response
+    {
+        $commentPrev = $this->getDoctrine()->getRepository(Comment::class)->findBy(array('book'=>$book));
+        return $this->render('book/show2.html.twig', [
+            'book' => $book,
+            'comments' => $commentPrev,
         ]);
     }
 
@@ -125,6 +139,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="book_edit", methods={"GET","POST"})
+     * * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Book $book): Response
     {
@@ -147,6 +162,7 @@ class BookController extends AbstractController
 
     /**
      * @Route("/{id}", name="book_delete", methods={"DELETE"})
+     * * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Book $book): Response
     {

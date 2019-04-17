@@ -25,7 +25,12 @@
                 <td>&euro;{{ book.price }}</td>
                 <td>{{ book.seller.username }}</td>
                 <td>
-                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                    {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
+                        <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                    {% else %}
+                        <a href="{{ path('book_show2', {'id': book.id}) }}">show</a>
+                    {% endif %}
+
                 </td>
             </tr>
         {% else %}
