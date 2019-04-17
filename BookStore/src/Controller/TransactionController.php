@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Transaction;
 use App\Entity\Book;
-use App\Entity\Choice;
-use App\Form\ChoiceType;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +22,12 @@ class TransactionController extends AbstractController
      */
     public function index(TransactionRepository $transactionRepository): Response
     {
+        $book = $this->getDoctrine()
+            ->getRepository(Book::class)
+            ->findAll();
         return $this->render('transaction/index.html.twig', [
             'transactions' => $transactionRepository->findAll(),
+            'books' => $book,
         ]);
     }
 

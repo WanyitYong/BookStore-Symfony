@@ -42,11 +42,6 @@ class Book
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $image;
 
     /**
@@ -63,6 +58,11 @@ class Book
      * @ORM\OneToOne(targetEntity="App\Entity\Transaction", cascade={"persist", "remove"})
      */
     private $transaction;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -115,17 +115,6 @@ class Book
     public function setPrice(float $price): self
     {
         $this->price = $price;
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
         return $this;
     }
 
@@ -192,6 +181,18 @@ class Book
     public function setTransaction(?Transaction $transaction): self
     {
         $this->transaction = $transaction;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

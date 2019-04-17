@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class UserController extends AbstractController
 {
+    private $passwordEncoder;
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -37,6 +40,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $role = $form->get('roles')->getData();
+            $user->setRoles(array($role));
+
+            $plainPassword  = $form->get('password')->getData();
+            $encodedPassword = $this->passwordEncoder->encodePassword($user, $plainPassword);
+            $user->setPassword($encodedPassword);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -49,6 +59,9 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    { $this->passwordEncoder = $passwordEncoder; }
 
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Transaction index{% endblock %}
+{% block title %}Order History{% endblock %}
 
 {% block body %}
     <h1>Transaction index</h1>
@@ -8,24 +8,25 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Buyer</th>
                 <th>Price</th>
-                <th>book</th>
-                <th>actions</th>
+                <th>Book</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-        {% for transaction in transactions %}
+        {% for transaction in transactions if transaction.buyer == app.user.username%}
             <tr>
-                <td>{{ transaction.id }}</td>
-                <td>{{ transaction.buyer }}</td>
                 <td>{{ transaction.price }}</td>
                 <td>{{ transaction.book }}</td>
-                <td>
-                    <a href="{{ path('transaction_show', {'id': transaction.id}) }}">show</a>
-                    <a href="{{ path('transaction_edit', {'id': transaction.id}) }}">edit</a>
-                </td>
+                {% if transaction.book.status == null %}
+                    <td style ="font-size: 15px; font-family: Segoe Script; ">Waiting for Seller to decided</td>
+                {% else %}
+                    {% if transaction.book.transaction ==  transaction %}
+                        <td style ="font-size: 15px; font-family: Segoe Script; ">Congratulation, you have got the book</td>
+                    {% else %}
+                        <td style ="font-size: 15px; font-family: Segoe Script; ">* Sorry, you didn't got the book *</td>
+                    {% endif %}
+                {% endif %}
             </tr>
         {% else %}
             <tr>
